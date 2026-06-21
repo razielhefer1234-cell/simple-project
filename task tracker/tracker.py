@@ -7,8 +7,11 @@ def dict_into_json(data):
         json.dump(data, file)
 
 def json_into_dict():
-    with open("data.json", "r") as file:
-        return json.load(file)
+    try:
+        with open("data.json", "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
 
 def account_creation(data):
     data = json_into_dict()
@@ -24,13 +27,17 @@ def account_check(data, username):
     data = json_into_dict()
     if username in data:
         return True
-    dict_into_json(data)
 
 def add_task(data, username, task, progress):
     data = json_into_dict()
+    for all_task in data[username]["Tasks"]:
+        key1 = list(all_task.keys())[0]
+        if key1 == task:
+            return True
     data[username]["Tasks"].append({task: progress})
     dict_into_json(data)
     print("Added a new task")
+    return "b"
 
 def update_task_progress(data, username, task, progress):
     data = json_into_dict()
@@ -42,11 +49,11 @@ def update_task_progress(data, username, task, progress):
             all_task[key1] = progress
             dict_into_json(data)
             return True
-    dict_into_json(data)
 
 def cheack_progress(progress):
     if progress in ["Done", "Not done", "In progress"]:
         return True
+    return False
 
 def delete_task(data, username, task):
     data = json_into_dict()
@@ -60,7 +67,6 @@ def delete_task(data, username, task):
             dict_into_json(data)
             return True
     print("Pls try again there is no task like this")
-    dict_into_json(data)
 
 def list_all_tasks(data, username):
     data = json_into_dict()
@@ -70,7 +76,6 @@ def list_all_tasks(data, username):
     for task in data[username]["Tasks"]:
         for key, value in task.items():
             print(f"{key}: {value}")
-    dict_into_json(data)
 
 def list_all_done(data, username):
     data = json_into_dict()
@@ -81,7 +86,6 @@ def list_all_done(data, username):
         for key, value in task.items():
             if value == "Done":
                 print(f"{key}: {value}")
-    dict_into_json(data)
 
 def list_all_not_done(data, username):
     data = json_into_dict()
@@ -92,7 +96,6 @@ def list_all_not_done(data, username):
         for key, value in task.items():
             if value == "Not done":
                 print(f"{key}: {value}")
-    dict_into_json(data)
 
 def list_all_in_progress(data, username):
     data = json_into_dict()
@@ -103,8 +106,6 @@ def list_all_in_progress(data, username):
         for key, value in task.items():
             if value == "In progress":
                 print(f"{key}: {value}")
-    dict_into_json(data)
-
 
 
 while True:
@@ -118,7 +119,9 @@ while True:
         print("Invalid choose")
 
 while True:
-    username = input("Pls enter a username: ")
+    username = input("Pls enter a username (or type 'quit' to exit): ")
+    if username.lower() == "quit":
+        exit()
     if account_check(data, username):
         print("All done")
         break
@@ -143,15 +146,23 @@ while True:
             break
         except ValueError:
             print("Pls pick from the numbers")
+            
     if choosen == 1:
-        task = input("Pls enter a new task: ")
         while True:
-            progress = input("Pls enter the task progress(Done, Not done, In progress): ")
-            if cheack_progress(progress):
+            task = input("Pls enter a new task: ")
+            while True:
+                progress = input("Pls enter the task progress(Done, Not done, In progress): ")
+                if cheack_progress(progress):
+                    break
+                else:
+                    print("Pls try again you have to do the following options: Done, Not done, In progress")
+            
+            result = add_task(data, username, task, progress)
+            if result is True: 
+                print("Task Alraedy exists")
+            elif result == "b":
                 break
-            else:
-                print("Pls try again you have to do the following options: Done, Not done, In progress")
-        add_task(data, username, task, progress)
+                
     if choosen == 2:
         while True:
             progress = input("Pls enter the task progress(Done, Not done, In progress): ")
@@ -164,11 +175,13 @@ while True:
             result = update_task_progress(data, username, task, progress)
             if result == "b":
                 print("The tasks list is empty")
+                break 
             elif result:
                 print("Progress updated")
                 break
             else:
                 print("Pls try again there is no task like this")
+                
     if choosen == 3:
         task = input("Pls enter a new task: ")
         delete_task(data, username, task)
@@ -183,7 +196,3 @@ while True:
     if choosen == 8:
         print("Exiting")
         break
-
-
-
-
