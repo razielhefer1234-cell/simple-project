@@ -1,50 +1,60 @@
-Task Tracker CLI
-A simple, terminal-based task management application written in Python. It allows users to create individual accounts and manage their to-do lists, saving everything locally in a JSON database.
+# Task Tracker
 
-Features
-Account Management: Create a unique username or log in to an existing profile.
+Task Tracker is a simple program that helps you keep track of things you need to do. You can create your own account, add tasks, and update their progress as you work on them. Your tasks are saved automatically, so they will still be there the next time you run the program.
 
-Task Creation: Add new tasks to your personal list.
+## Features
 
-Progress Tracking: Assign and update task statuses using specific categories (Done, Not done, In progress).
+* Create your own account.
+* Add new tasks.
+* Change the status of tasks.
+* Remove tasks you no longer need.
+* View all your tasks.
+* See only completed tasks.
+* See tasks that are still unfinished.
+* See tasks that are currently in progress.
+* Save all data automatically.
 
-Task Deletion: Remove tasks you no longer need.
+## Task Statuses
 
-List Filtering: View all tasks at once, or filter them specifically by their current status.
+Every task has one of the following statuses:
 
-Local Storage: Automatically reads and writes all data to a local JSON file.
+* **Done** – The task has been completed.
+* **Not done** – The task has not been completed yet.
+* **In progress** – You are currently working on the task.
 
-Prerequisites & Setup
-To run this script successfully, you will need Python 3 installed on your machine and a starter JSON file in the same directory.
+## Files
 
-Important Note: Based on the script's design, it immediately attempts to read the database file. To prevent a "File Not Found" error on your very first run, ensure you have created a file named data.json in the same folder as your Python script.
+### `tracker.py`
 
-Initialize the database: Create the data.json file. Inside this file, type a single opening curly brace followed immediately by a closing curly brace to represent an empty database. Save the file.
+The main program. It handles creating accounts and managing tasks.
 
-Run the script: Open your terminal or command prompt, navigate to the folder containing your files, and execute the Python script using standard terminal commands for running Python files.
+### `data.json`
 
-How to Use
-Upon launching, the program will guide you through a series of prompts:
+Stores all users and their tasks so that information is not lost when the program is closed.
 
-Welcome Screen: It will first ask if you want to create an account. If you don't have an account yet, type y to register a new username. Type n if you already have one.
+## How to Use
 
-Login: Enter your registered username to access your specific task database.
+1. Start the program.
+2. Create an account or log in with an existing username.
+3. Choose an option from the menu.
+4. Add tasks and give them a status.
+5. Update or delete tasks whenever needed.
+6. View all tasks or filter them by their status.
+7. Exit the program when you are finished.
 
-Main Menu: Once logged in, choose an action by typing the corresponding number (1-8):
+## Menu Options
 
-1: Add a new task (prompts for the task name and its current status).
+The program provides the following options:
 
-2: Update task progress (prompts for the new status first, and then asks for the exact task name to update).
+1. Add a new task.
+2. Update the status of a task.
+3. Delete a task.
+4. View all tasks.
+5. View completed tasks.
+6. View unfinished tasks.
+7. View tasks that are currently in progress.
+8. Exit the program.
 
-3: Delete a task.
+## Data Storage
 
-4: View all tasks currently on your list.
-
-5-7: View tasks filtered specifically by Done, Not done, or In progress.
-
-8: Save and exit the application.
-
-Tip: When entering a progress status, make sure to type it exactly as prompted (i.e., Done, Not done, or In progress). The application is case-sensitive for these statuses.
-
-Data Structure Overview
-The application organizes your data logically within the data.json file. Each registered username serves as a primary profile. Within that profile, there is a dedicated tasks section that holds individual entries. Each entry pairs the exact name of your task with its current progress status.
+All information is stored locally in a JSON file. This means that your accounts and tasks are saved automatically and will still be available the next time you open the program.
